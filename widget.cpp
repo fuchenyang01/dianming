@@ -1,6 +1,8 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include "QTextCodec"
+
+#pragma execution_character_set("utf-8")
 Widget::Widget(QWidget *parent) :
     QWidget(parent)
 {
@@ -28,6 +30,9 @@ Widget::Widget(QWidget *parent) :
     this->connect(importButton, SIGNAL(clicked()), this, SLOT(importButtonClicked()));
     this->connect(switchButton, SIGNAL(clicked()), this, SLOT(switchButtonClicked()));
     this->connect(switchTime, SIGNAL(timeout()), this, SLOT(switchTimeOut()));
+
+
+    tts = new QTextToSpeech(this);
 }
 
 Widget::~Widget()
@@ -36,6 +41,7 @@ Widget::~Widget()
 
 void Widget::importButtonClicked()
 {
+
     if (strListImport.isEmpty())//数据导入为空则导入，否则给出提示信息
         importData();
     else
@@ -71,7 +77,8 @@ void Widget::switchButtonClicked()
         {
             switchButton->setText(tr("开始"));
             switchTime->stop();
-            strListImport.removeAt(test);//移除已被点名的人
+            tts->say(strListImport[test]);
+            strListImport.removeAt(test);//移除已被点名的人         
             count--;
             qDebug()<<strListImport;
         }

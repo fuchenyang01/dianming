@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QTime>
+#include <QtTextToSpeech/QTextToSpeech>
 
 class Widget : public QWidget
 {
@@ -31,6 +32,7 @@ private:
     int count=0;
     bool switchButtonFlg = false;
     int test = 0;
+    QTextToSpeech* tts;
 
 private slots:
     void importButtonClicked();
