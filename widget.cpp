@@ -33,6 +33,11 @@ Widget::Widget(QWidget *parent) :
 
 
     tts = new QTextToSpeech(this);
+    qtaudioPlayer=new QMediaPlayer();
+    QString dir=QCoreApplication ::applicationDirPath();
+    QString filename(dir+"/Sound/bgm.wav");
+    qDebug()<<filename;
+    qtaudioPlayer->setMedia(QUrl::fromLocalFile(filename));
 }
 
 Widget::~Widget()
@@ -71,16 +76,17 @@ void Widget::switchButtonClicked()
         {
             switchButton->setText(tr("停止"));
             switchTime->start(50);
-            qDebug()<<strListImport;
+
+            qtaudioPlayer->play();
         }
         else
         {
             switchButton->setText(tr("开始"));
+            qtaudioPlayer->stop();
             switchTime->stop();
             tts->say(strListImport[test]);
             strListImport.removeAt(test);//移除已被点名的人         
             count--;
-            qDebug()<<strListImport;
         }
     }
 }
@@ -89,7 +95,6 @@ void Widget::switchTimeOut()//定时器溢出处理函数
 {
     test = qrand()%count;//初始化随机数
     nameDisplayLabel->setText(strListImport.at(test));
-    qDebug() << "随机数：" << test << " count: " << count;
 }
 
 void Widget::importData()//数据导入函数

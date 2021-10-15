@@ -12,6 +12,8 @@
 #include <QDebug>
 #include <QTime>
 #include <QtTextToSpeech/QTextToSpeech>
+#include <QMediaPlayer>
+#include <QSound>
 
 class Widget : public QWidget
 {
@@ -33,6 +35,7 @@ private:
     bool switchButtonFlg = false;
     int test = 0;
     QTextToSpeech* tts;
+    QMediaPlayer *qtaudioPlayer;
 
 private slots:
     void importButtonClicked();
